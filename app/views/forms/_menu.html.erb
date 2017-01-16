@@ -1,0 +1,10 @@
+<%= form_tag("#", {:class => "form"}) do %>
+  <div class="edit-container">
+    <%= submit_tag "Submit", class: "class" %>
+    <button>Clear</button>
+  </div>
+
+  <div class="setting-container">
+    <%= select_tag "Topo type"%>
+  </div>
+<% end =%>
