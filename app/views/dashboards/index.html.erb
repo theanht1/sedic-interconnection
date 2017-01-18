@@ -1,1 +1,17 @@
-<%= render "forms/menu" %>
+<header>
+  <h1>Network generator</h1>
+</header>
+
+<div id="container" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+      <div id="setting-menu">
+        <%= render "forms/menu" %>
+      </div>
+    </div>
+
+    <div id="scroll-network" class="col-sm-9">
+      <div id="network-container"></div>
+    </div>    
+  </div>
+</div>

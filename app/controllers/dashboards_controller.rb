@@ -1,6 +1,10 @@
 class DashboardsController < ApplicationController
 
   def index
-    @topoType = TopoType.TYPE
+    @topoType = TopoType.type
+  end
+
+  def create
+    TopoType.create_network(params[:topo_type], params[:network_size])
   end
 end
