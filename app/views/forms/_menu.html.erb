@@ -1,33 +1,38 @@
-<%= form_tag({:action => :create}, {:class => "form"}) do %>
-  <div class="edit-container">
+<%= form_tag({:action => :create}, {:id => "submit", :class => "form", :remote => true}) do %>
+  <div id="edit-container">
     <%= submit_tag "Submit", class: "btn btn-primary" %>
     <button class="btn btn-default">Clear</button>
   </div>
 
-  <div class="setting-container">
+  <div id="setting-container">
     <div class="input-group">
       <span class="input-group-addon">Topo type</span>
-      <%= select_tag :topo_type, options_for_select(@topoType), class: "form-control" %>
+      <%= select_tag "opts[topo_type]", options_for_select(@topoType), class: "form-control" %>
     </div>
 
     <div class="input-group">
       <span class="input-group-addon">Network size</span>
-      <%= text_field_tag :network_size, 8, class: "form-control" %>
+      <%= text_field_tag "opts[network_size]", 16, class: "form-control" %>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">Number of random links</span>
+      <%= text_field_tag "opts[n_random_links]", 2, class: "form-control" %>
     </div>
 
     <div class="input-group">
       <span class="input-group-addon">Switch delay</span>
-      <%= text_field_tag :switch_delay, "123", class: "form-control", disabled: true %>
+      <%= text_field_tag "opts[switch_delay]", "123", class: "form-control", disabled: true %>
     </div>
 
     <div class="input-group">
       <span class="input-group-addon">Switch power</span>
-      <%= text_field_tag :switch_power, "123", class: "form-control", disabled: true %>
+      <%= text_field_tag "opts[switch_power]", "123", class: "form-control", disabled: true %>
     </div>
 
     <div class="input-group">
       <span class="input-group-addon">Link latancy</span>
-      <%= text_field_tag :link_latancy, "123", class: "form-control", disabled: true %>
+      <%= text_field_tag "opts[link_latancy]", "123", class: "form-control", disabled: true %>
     </div>
   </div>
 <% end =%>

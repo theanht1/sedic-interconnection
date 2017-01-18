@@ -12,15 +12,18 @@ class TopoType < ApplicationRecord
     TOPO_NAME.values
   end
 
-  def self.create_network type_name, size
+  def self.create_network type_name, opts = {}
     topo_type = TOPO_NAME.key(type_name.to_s)
-    self.send("create_" + topo_type.to_s, size)
+    self.send("create_" + topo_type.to_s, opts)
   end
 
-  def self.create_sw_torus2d size    
-    result = %x[ python2 #{GENERATOR_DIR}/sw-2DTorus0.2.py #{size} 2 ]
-    file_edges = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{2}.edges"
-    file_geo = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{2}.geo"
+  def self.create_sw_torus2d opts
+    # print opts.to_h
+    size = opts[:network_size]
+    n_random_links = opts[:n_random_links]
+    result = %x[ python2 #{GENERATOR_DIR}/sw-2DTorus0.2.py #{size} #{n_random_links} ]
+    file_edges = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{n_random_links}.edges"
+    file_geo = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{n_random_links}.geo"
 
     geo = []
     File.foreach(file_geo) do |line|

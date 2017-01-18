@@ -4,20 +4,19 @@
 
 #network-container {
   /*position : absolute;*/
-  left : 200px;
+  left : 50px;
   top : 20px;
   background-color : #fff;
   position: relative;
-  width: 400px;
-  height: 400px;
-  /*background-color: #ffffff;*/
+  width: 800px;
+  height: 500px;
 }
 
 #scroll-network {
-  height: 100%;
-  padding: 0;
-  overflow: auto;
-  background-color: #4285f4;
+  /*height: 100%;*/
+  /*padding: 0;*/
+  /*overflow: auto;*/
+  /*background-color: #4285f4;*/
 }
 
 #setting-menu {
@@ -29,4 +28,8 @@
   bottom : 0;
   left : 0;
   right : 0;
+}
+
+.input-group span {
+  width: 200px;
 }
