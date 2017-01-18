@@ -5,6 +5,6 @@ class DashboardsController < ApplicationController
   end
 
   def create
-    TopoType.create_network(params[:topo_type], params[:network_size])
+    render json: TopoType.create_network(params[:topo_type], params[:network_size])
   end
 end
