@@ -234,7 +234,7 @@ def write_geoIndex(outputFileName,totalNode,xSize,ySize):
 	print 'Write geoIndix into ' + outputFileName
 	fo = open(outputFileName, "w")
 	option = "T_" + str(totalNode) + "_" + str(xSize) + "_" + str(ySize) + "\r\n"
-	fo.writelines(option)
+	# fo.writelines(option)
 	for i in range(0,totalNode):
 		node = node = index_2_node(i,xSize,ySize)
 		line = str(i) + ' ' + str(node['X']) + ' ' + str(node['Y']) + "\r\n"
