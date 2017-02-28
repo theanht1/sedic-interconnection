@@ -6,7 +6,7 @@ class TopoType < ApplicationRecord
   }
 
   GENERATOR_DIR = File.expand_path("../../network_generator", __dir__)
-  RESULT_DIR = File.expand_path("../../network_generator/results", __dir__)
+  RESULT_DIR = File.expand_path("../../", __dir__)
 
   def self.type
     TOPO_NAME.values
@@ -20,10 +20,14 @@ class TopoType < ApplicationRecord
   def self.create_sw_torus2d opts
     # print opts.to_h
     size = opts[:network_size]
-    n_random_links = opts[:n_random_links]
-    result = %x[ python2 #{GENERATOR_DIR}/sw-2DTorus0.2.py #{size} #{n_random_links} ]
-    file_edges = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{n_random_links}.edges"
-    file_geo = "#{RESULT_DIR}/sw_2DTorus0.2_n#{size}_r#{n_random_links}.geo"
+    n_random_links = opts[:n_random_links].to_i
+    x_size = opts[:x_size]
+    probs = opts[:probs].values.join(" ")
+    result = %x[ python #{GENERATOR_DIR}/sw-2DTorus.py #{size} #{x_size} #{probs} ]
+    
+    files = result.split("\n").last(2)
+    file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
+    file_geo = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
     geo = []
     File.foreach(file_geo) do |line|
@@ -33,6 +37,21 @@ class TopoType < ApplicationRecord
     edges = []
     File.foreach(file_edges) do |line|
       edges << line.split(" ")
+    end
+
+    # print edges
+    print opts[:probs]
+    (0...n_random_links).each do |i|
+      f = "#{RESULT_DIR}/network_generator/results/listr#{i}"
+      File.foreach(f) do |line|
+        tmp = line.split(" ")
+
+        # print tmp
+        print i
+        # print opts[:probs].values[i]
+        ii = edges.index(tmp)
+        edges[ii][2] = opts[:probs].values[i] if ii
+      end      
     end
 
     {

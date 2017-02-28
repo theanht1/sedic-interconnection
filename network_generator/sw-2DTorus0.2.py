@@ -231,7 +231,7 @@ def	node_distance(nodeIdx1,nodeIdx2,xSize,ySize):
 
 def write_geoIndex(outputFileName,totalNode,xSize,ySize):
 	outputFileName = 'network_generator/results/' + outputFileName
-	print 'Write geoIndix into ' + outputFileName
+	print outputFileName
 	fo = open(outputFileName, "w")
 	option = "T_" + str(totalNode) + "_" + str(xSize) + "_" + str(ySize) + "\r\n"
 	# fo.writelines(option)
@@ -277,7 +277,7 @@ def remove_link(idx1,idx2,links):
 
 def write_links(outputFileName,links):
 	outputFileName = 'network_generator/results/' + outputFileName
-	print 'Write links into ' + outputFileName
+	print outputFileName
 	fo = open(outputFileName, "w")
 	for i in range (0, len(links)):
 		linksOfI = links[i]

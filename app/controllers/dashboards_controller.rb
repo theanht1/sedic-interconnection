@@ -10,4 +10,8 @@ class DashboardsController < ApplicationController
     # print opts
     render json: TopoType.create_network(topo_type, opts).merge({:type => topo_type})
   end
+
+  def show
+    render "dashboards/show"
+  end
 end
