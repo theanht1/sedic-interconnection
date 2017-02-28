@@ -1,7 +1,10 @@
-$(document).ready(function(){
-  
+var geos = [];
+var edges = [];
+var n_random_links;
+var s;
 
-  var s = new sigma({
+$(document).ready(function(){
+  s = new sigma({
     renderer: {
       container: 'network-container',
       type: 'canvas'
@@ -20,8 +23,9 @@ $(document).ready(function(){
     // Clear current network
     clear(s);
 
-    var geos = data['geo'];
-    var edges = data['edges'];
+    geos = data['geo'];
+    edges = data['edges'];
+    n_random_links = data['n_random_links'];
     var nNode = geos.length;
     var nEdge = edges.length;
 
@@ -54,12 +58,13 @@ $(document).ready(function(){
       var type;
       
       var isRandom = false;
+      if (edges[i][2] >= 0) isRandom = true;
+
       if (isNeighbor(edges[i][0], edges[i][1])) {
         type = 'line';
       }
       else {
-        type = 'curve';
-        isRandom = true
+        type = 'curve';        
       }
 
       g.edges.push({
@@ -72,7 +77,8 @@ $(document).ready(function(){
         hover_color: '#000',
         type: type,
         is_random: isRandom,
-        probility: edges[i][2]
+        nAlpha: edges[i][2],
+        alpha: edges[i][3]
       })
     }
 
@@ -96,19 +102,30 @@ $(document).ready(function(){
     // });
 
     s.bind('clickEdge', function(e){
-      console.log(e.data);
+      // console.log(e.data);
       console.log(e.data.edge);
 
       edge = e.data.edge;
       if (edge.is_random == true) {
         $('#edge-click').empty();
-        var formAppend = '<div class="input-group"> <span class="input-group-addon">Source</span><input disabled="true" value=' + edge.source + '></div><div class="input-group"> <span class="input-group-addon">Target</span><input disabled="true" value=' + edge.target + '></div><div class="input-group"> <span class="input-group-addon">Probility</span><input disabled="true" value=' + edge.probility + '></div>';
+        var formAppend = '<div class="input-group"> <span class="input-group-addon">Source</span><input disabled="true" value=' + edge.source + '></div><div class="input-group"> <span class="input-group-addon">Target</span><input disabled="true" value=' + edge.target + '></div><div class="input-group"> <span class="input-group-addon">Alpha</span><input disabled="true" value=' + edge.alpha + '></div>';
 
-        // "Source: " + edge.source + "<hr>Target: " + edge.target + 
-                         // "<hr>Probility: " + edge.probility;
+
         $('#edge-click').append(formAppend);
       }
     });
+
+    // console.log($("#opts_n_random_links"));
+
+    var alphaView = '<div class="input-group"> <span class="input-group-addon">View links</span>'
+                  + '<select onchange="linkWithAlpha(this);" class="form-control">';
+    for (var i = 0; i <= n_random_links; i++) {
+      alphaView += '<option value=' + i + '>' + i + '</option>';
+
+    }
+    alphaView += '</select>' + '</div>';
+    $("#alpha-view").empty();
+    $("#alpha-view").append(alphaView);
   });
   
   $("#clear").on("click", function(event){
@@ -138,21 +155,36 @@ function topoTypeChange(e) {
     hideTorusForm();
 }
 
-function toggleLinkProb() {
-  if ($('#link-prob').attr("class") == "show") {
-    $('#link-prob').attr("class", "hide");
+function toggleLinkAlpha() {
+  if ($('#link-alpha').attr("class") == "show") {
+    $('#link-alpha').attr("class", "hide");
   }
   else {
-    $('#link-prob').attr("class", "show");
+    $('#link-alpha').attr("class", "show");
   }
 }
 
 function nLinkChange(e) {
   console.log(e.value);
-  $("#link-prob").empty();
+  $("#link-alpha").empty();
   var formAppend = "";
   for (var i = 1; i <= e.value; i++) {
-    formAppend += "<div class='input-group'> <span class='input-group-addon'>Link " + i + "</span> <input type='number' name='opts[probs][" + i + "]' value='0.2' step='0.01'> </div>";
+    formAppend += "<div class='input-group'> <span class='input-group-addon'>Link " + i + "</span> <input type='number' name='opts[alphas][" + i + "]' value='2' step='0.01'> </div>";
   }
-  $("#link-prob").append(formAppend);
+  $("#link-alpha").append(formAppend);
 }
+
+function linkWithAlpha(e) {  
+  for (var i = 0; i < s.graph.edges().length; i++) {      
+    s.graph.edges()[i].color = "#ccc";
+  }
+  if (e.value > 0) {
+    for (var i = 0; i < s.graph.edges().length; i++) {      
+      if (s.graph.edges()[i].nAlpha == e.value - 1) {
+        s.graph.edges()[i].color = "#ff0000";
+      }
+    }
+  }  
+  s.refresh();
+}
+

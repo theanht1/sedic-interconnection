@@ -22,8 +22,8 @@ class TopoType < ApplicationRecord
     size = opts[:network_size]
     n_random_links = opts[:n_random_links].to_i
     x_size = opts[:x_size]
-    probs = opts[:probs].values.join(" ")
-    result = %x[ python #{GENERATOR_DIR}/sw-2DTorus.py #{size} #{x_size} #{probs} ]
+    alphas = opts[:alphas].values.join(" ")
+    result = %x[ python #{GENERATOR_DIR}/sw-2DTorus.py #{size} #{x_size} #{alphas} ]
     
     files = result.split("\n").last(2)
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
@@ -40,23 +40,27 @@ class TopoType < ApplicationRecord
     end
 
     # print edges
-    print opts[:probs]
+    # print opts[:alphas]
     (0...n_random_links).each do |i|
       f = "#{RESULT_DIR}/network_generator/results/listr#{i}"
       File.foreach(f) do |line|
         tmp = line.split(" ")
 
         # print tmp
-        print i
+        # print i
         # print opts[:probs].values[i]
         ii = edges.index(tmp)
-        edges[ii][2] = opts[:probs].values[i] if ii
+        if ii
+          edges[ii][2] = i
+          edges[ii][3] = opts[:alphas].values[i]
+        end
       end      
     end
 
     {
       geo: geo,
-      edges: edges
+      edges: edges,
+      n_random_links: n_random_links
     }
   end
 
