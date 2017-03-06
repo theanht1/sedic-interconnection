@@ -57,23 +57,27 @@ def main():
         tor.add_edges([(i, nodeIndex(row, (col + 1) % xSize, xSize)), (i, nodeIndex((row + 1) % ySize, col, xSize))])
 
     # 4.2 Print edges file
-    f_edges = open("sw_2DTorus_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".edges", "w")
-    f_edges.write(str(Node) + "      " + str(len(tor.get_edgelist())) + "      " + str(int(Node/2) * numberRandomLink) + "\n")
+    f_edges = open("network_generator/results/sw_2DTorus_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".edges", "w")
+    f_edges.write(str(Node) + " " + str(len(tor.get_edgelist())) + " " + str(numberRandomLink) + "\n")
     for i in range(Node):
         for j in tor.neighbors(i):
-            f_edges.write(str(i) + "      " + str(j) + "\n")
+            if i < j:
+                f_edges.write(str(i) + " " + str(j) + "\n")
 
     # 3.2 Add random links
+    THRESHOLD = 100
     for i in range(numberRandomLink): #  Implement for per random link
         #fi = open("listr" + str(i), "w") # Output file for per random link
         a = float(sys.argv[i + 3]) # Load power of random link
-        f_edges.write("\n" + str(int(Node / 2)) + "      " + str(a) + "\n")
+        f_edges.write(str(int(Node / 2)) + " " + str(a) + "\n")
         C = 0 # Kleiberg constant
         for n in range(1, Node):
             C += pow(nodeDistance(0, n, xSize, ySize), -a)
         for u in range(outlink, Node): # Implement for per node
             if(tor.degree(u) >= 5 + i):
                 continue
+
+            isStop = 0
             while(tor.degree(u) < 5 + i):
                 count = 0
                 ui = u % xSize
@@ -105,13 +109,13 @@ def main():
                         break
                 if ((v != u) and (tor.degree(v) < 5 + i) and (tor.neighbors(u).count(v) == 0)):
                     tor.add_edges([(u, v)])
-                    f_edges.write(str(u) + "      " + str(v) + "\n")
+                    f_edges.write(str(u) + " " + str(v) + "\n")
                     count += 1
 
-                end1Time = time.clock() # Check time to restart program if too long
-                '''if(end1Time - beginTime >= 20): # time to counting loop
-                    print("Out of expect time. Program is restarting!")
-                    return 0'''
+                isStop += 1
+                if isStop > THRESHOLD:
+                    break
+
                 if(count == 1): break
         print("Complete graph with r" + str(i))
     #end2Time = time.clock() # time to counting building graph
@@ -123,10 +127,10 @@ def main():
     print(tor)
 
     # 4.1 Print geos file
-    f_geos = open("sw_2DTorus2_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".geos", "w")
+    f_geos = open("network_generator/results/sw_2DTorus_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".geos", "w")
     f_geos.write(str(Node) + "\n")
     for i in range(Node):
-        f_geos.write(str(i) + "      " + str(i % xSize) + "      " + str(int(i / xSize)) + "\n")
+        f_geos.write(str(i) + " " + str(i % xSize) + " " + str(int(i / xSize)) + "\n")
     f_geos.close()
 
 

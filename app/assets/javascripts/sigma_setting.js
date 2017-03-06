@@ -1,3 +1,10 @@
+var COLORS = [
+  "#ccc",
+  "#ff0000",
+  "#0e3de5",
+  "#6dfe14"   
+];
+
 var sigmaSettings = 
         {
           defaultEdgeType: "line",

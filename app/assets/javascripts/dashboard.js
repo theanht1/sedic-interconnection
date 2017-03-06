@@ -2,6 +2,22 @@ var geos = [];
 var edges = [];
 var n_random_links;
 var s;
+var graph;
+
+function newGraph(graph, settings) {
+  return new sigma({
+    graph: graph,
+    renderer: {
+      container: 'network-container',
+      type: 'canvas'
+    },
+    settings: settings
+  });
+}
+
+function clear(s) {
+  if (s.graph.nodes().length > 0) s.kill();
+}
 
 $(document).ready(function(){
   s = new sigma({
@@ -11,10 +27,6 @@ $(document).ready(function(){
     },
     settings: sigmaSettings
   });
-
-  function clear(s) {
-    if (s.graph.nodes().length > 0) s.kill();
-  }
 
   $("#submit").on('ajax:success', function(event, data, status, xhr){
     // console.log(data['geo']);
@@ -33,7 +45,8 @@ $(document).ready(function(){
       if (!geos[x] || !geos[y]) return true;
       return Math.abs(geos[x][1] - geos[y][1]) + Math.abs(geos[x][2] - geos[y][2]) == 1;
     }
-    var g = {
+
+    graph = {
       nodes: [],
       edges: []
     };
@@ -41,7 +54,7 @@ $(document).ready(function(){
     var xSpace = 70;
     var ySpace = 50;
     for (var i = 0; i < nNode; i++) {
-      g.nodes.push({
+      graph.nodes.push({
         id: 'n' + geos[i][0],
         label: 'n' + geos[i][0],
         x: geos[i][1] * xSpace,
@@ -50,7 +63,6 @@ $(document).ready(function(){
         color: '#666'
       });
     }
-
 
     for (var i = 0; i < nEdge; i++) {
       var x = edges[i][0], y = edges[i][1];
@@ -67,7 +79,7 @@ $(document).ready(function(){
         type = 'curve';        
       }
 
-      g.edges.push({
+      graph.edges.push({
         id: 'e' + i,
         label: 'e' + edges[i][0] + ':' + edges[i][1],
         source: 'n' + edges[i][0],
@@ -82,16 +94,8 @@ $(document).ready(function(){
       })
     }
 
-    s = new sigma({
-      graph: g,
-      renderer: {
-        container: 'network-container',
-        type: 'canvas'
-      },
-      settings: sigmaSettings
-    });
+    s = newGraph(graph, sigmaSettings);
 
-    console.log(s.graph);
     s.bind('overNode', function(e){
       console.log(e.data);
     });
@@ -174,16 +178,18 @@ function nLinkChange(e) {
   $("#link-alpha").append(formAppend);
 }
 
-function linkWithAlpha(e) {  
-  for (var i = 0; i < s.graph.edges().length; i++) {      
-    s.graph.edges()[i].color = "#ccc";
-  }
+function linkWithAlpha(e) {
+  clear(s);
+  s = newGraph(graph, sigmaSettings);
   if (e.value > 0) {
-    for (var i = 0; i < s.graph.edges().length; i++) {      
-      if (s.graph.edges()[i].nAlpha == e.value - 1) {
-        s.graph.edges()[i].color = "#ff0000";
+    // console.log(s.graph.edges().length);
+    s.graph.edges().forEach(function(edge) {
+      if (edge.nAlpha && edge.nAlpha == e.value) {
+        edge.color = COLORS[e.value];
+      } else {
+        s.graph.dropEdge(edge.id);
       }
-    }
+    });
   }  
   s.refresh();
 }
