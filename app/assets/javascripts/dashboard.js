@@ -153,7 +153,7 @@ function hideTorusForm() {
 }
 
 function topoTypeChange(e) {
-  if (e.selectedIndex == 0)
+  if (e.selectedIndex == 0 || e.selectedIndex == 1)
     showTorusForm();
   else
     hideTorusForm();

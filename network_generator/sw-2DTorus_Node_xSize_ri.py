@@ -112,11 +112,12 @@ def main():
                     f_edges.write(str(u) + " " + str(v) + "\n")
                     count += 1
 
+                if(count == 1): break
+                
                 isStop += 1
                 if isStop > THRESHOLD:
                     break
 
-                if(count == 1): break
         print("Complete graph with r" + str(i))
     #end2Time = time.clock() # time to counting building graph
     #timeBuilding = end2Time - beginTime

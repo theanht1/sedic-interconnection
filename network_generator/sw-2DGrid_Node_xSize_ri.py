@@ -62,21 +62,24 @@ def main():
             grid.add_edges([(i, nodeIndex(row, (col + 1) % xSize, xSize))])
 
     # 4.2 Print edges file
-    f_edges = open("sw_2DGrid_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".edges", "w")
-    f_edges.write(str(Node) + "      " + str(len(grid.get_edgelist())) + "      " + str(int(Node/2) * numberRandomLink) + "\n")
+    f_edges = open("network_generator/results/sw_2DGrid_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".edges", "w")
+    f_edges.write(str(Node) + " " + str(len(grid.get_edgelist())) + " " + str(numberRandomLink) + "\n")
     for i in range(Node):
         for j in grid.neighbors(i):
-            f_edges.write(str(i) + "      " + str(j) + "\n")
+            if i < j:
+                f_edges.write(str(i) + " " + str(j) + "\n")
 
 
     # 3.2 Add random links
+    THRESHOLD = 100
     for i in range(numberRandomLink): #  Implement for per random link
         #fi = open("listr" + str(i), "w") # Output file for per random link
         a = float(sys.argv[i + 3]) # Load power of random link
-        f_edges.write("\n" + str(int(Node / 2)) + "      " + str(a) + "\n")
+        f_edges.write(str(int(Node / 2)) + " " + str(a) + "\n")
         for u in range(outlink, Node): # Implement for per node
             if(grid.degree(u) >= (1 + nodeDegree(u, xSize, ySize) + i)):
                 continue
+            isStop = 0
             while(grid.degree(u) < (1 + nodeDegree(u, xSize, ySize) + i)):
                 count = 0
                 ui = u % xSize
@@ -112,13 +115,18 @@ def main():
                         break
                 if ((v != u) and (grid.degree(v) < (1 + nodeDegree(v, xSize, ySize) + i)) and (grid.neighbors(u).count(v) == 0)):
                     grid.add_edges([(u, v)])
-                    f_edges.write(str(u) + "      " + str(v) + "\n")
+                    f_edges.write(str(u) + " " + str(v) + "\n")
                     count += 1
                 end1Time = time.clock() # Check time to restart program if too long
                 '''if(end1Time - beginTime >= 6): # time to counting loop
                     print("Out of expect time. Program is restarting!")
                     return 0'''
                 if(count == 1): break
+
+                isStop += 1
+                if isStop > THRESHOLD:
+                    break
+
         print("Complete graph with r" + str(i))
     #end2Time = time.clock() # time to counting building graph
     #timeBuilding = end2Time - beginTime
@@ -129,9 +137,10 @@ def main():
     print(grid)
 
     # 4.1 Print geos file
-    f_geos = open("sw_2DGrid_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".geos", "w")
+    f_geos = open("network_generator/results/sw_2DGrid_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".geos", "w")
+    f_geos.write(str(Node) + "\n")
     for i in range(Node):
-        f_geos.write(str(i) + "      " + str(i % xSize) + "      " + str(int(i / xSize)) + "\n")
+        f_geos.write(str(i) + " " + str(i % xSize) + " " + str(int(i / xSize)) + "\n")
     f_geos.close()
 
 
