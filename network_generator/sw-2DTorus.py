@@ -54,7 +54,7 @@ def main():
         row = int(i / xSize)
         tor.add_edges([(i, nodeIndex(row, (col + 1) % xSize, xSize)), (i, nodeIndex((row + 1) % ySize, col, xSize))])
     # 3.2 Add random links
-    THRESHOLD = 100
+    THRESHOLD = 5
     for i in range(numberRandomLink):
         fi = open("network_generator/results/listr" + str(i), "w")
         # fi.write("Random links of r" + str(i) + ":\n")
@@ -110,8 +110,9 @@ def main():
 
     # 4. Print result
     print("----------------------------")
-    print(tor)
+    # print(tor)
 
+    print("Exporting geos")
     # 4.1 Print geos file
     f_geos = open("network_generator/results/sw_2DTorus_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".geos", "w")
     # f_geos.write("Torus " + str(Node) + "=" + str(xSize) + "col" + "*" + str(ySize) + "row" + "\n")
@@ -119,6 +120,7 @@ def main():
         f_geos.write(str(i) + "\t" + str(i % xSize) + "\t" + str(int(i / xSize)) + "\n")
     f_geos.close()
 
+    print("Exporting edges")
     # 4.2 Print edges file
     f_edges = open("network_generator/results/sw_2DTorus_n" + str(Node) + "xSize" + str(xSize) + "_r" + str(numberRandomLink) + ".edges", "w")
     for i in range(Node):
@@ -153,9 +155,10 @@ def nodeDistance(u, v, x, y):
         dj = y - abs(uj - vj)
     return di+dj
 
-while(1):
-    A = main()
-    if(A == 0):
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    if(A == 1):
-        break
+# while(1):
+main()
+    # A = main()
+    # if(A == 0):
+    #     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    # if(A == 1):
+    #     break
