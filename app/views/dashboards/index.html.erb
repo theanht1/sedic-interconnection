@@ -5,15 +5,45 @@
 <div id="container" class="container-fluid">
   <div class="row">
     <div class="col-sm-3">
-      <div id="setting-menu">
-        <%= render "forms/menu" %>
+      <div class="relate row">
 
-        <div id="results">
-          <div id="alpha-view"> </div>
-          <div id="edge-click"> </div>
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a 
+              data-toggle="tab" 
+              href="#setting-menu"
+            >
+              <span class="glyphicon glyphicon-th-list"></span> 
+              Generator 
+            </a>
+          </li>
+
+          <li>
+            <a 
+              data-toggle="tab" 
+              href="#upload-menu"
+            >
+              <span class="glyphicon glyphicon-upload"></span> 
+              Upload
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="setting-menu" class="tab-pane fade in active">
+            <%= render "forms/menu" %>
+
+            <div id="results">
+              <div id="alpha-view"> </div>
+              <div id="edge-click"> </div>
+            </div>
+          </div>
+
+          <div id="upload-menu" class="tab-pane fade in">
+            <%= render "forms/upload" %>
+          </div>
         </div>
       </div>
-      
     </div>
 
     <div id="scroll-network" class="col-sm-9">

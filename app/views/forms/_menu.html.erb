@@ -1,4 +1,4 @@
-<%= form_tag({:action => :create}, {:id => "submit", :class => "form", :remote => true}) do %>
+<%= form_tag("/dashboards/create", {:id => "submit", :class => "form", :remote => true}) do %>
   <div id="edit-container">
     <%= submit_tag "Submit", class: "btn btn-primary" %>
     <!-- <button id="clear" class="btn btn-default">Clear</button> -->

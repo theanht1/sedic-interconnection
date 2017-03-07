@@ -11,6 +11,14 @@ class DashboardsController < ApplicationController
     render json: TopoType.create_network(topo_type, opts).merge({:type => topo_type})
   end
 
+  def upload
+    # params[:file_geos].read
+    # puts content
+    # doc = YAML.load(content)
+
+    render json: Upload.create_network_from_file(params[:file_geos].read, params[:file_edges])
+  end
+
   def show
     render "dashboards/show"
   end

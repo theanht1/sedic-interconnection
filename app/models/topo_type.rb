@@ -26,12 +26,12 @@ class TopoType < ApplicationRecord
     
     files = result.split("\n").last(2)
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
-    file_geo = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
+    file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
-    f_geo = File.open(file_geo, 'r')
-    n = f_geo.readline.to_i
-    geo = []
-    (1..n).each { geo << f_geo.readline.split(" ") }
+    f_geos = File.open(file_geos, 'r')
+    n = f_geos.readline.to_i
+    geos = []
+    (1..n).each { geos << f_geos.readline.split(" ") }
     
     f_edges = File.open(file_edges, 'r')
     edges = []
@@ -46,7 +46,7 @@ class TopoType < ApplicationRecord
     end
 
     {
-      geo: geo,
+      geos: geos,
       edges: edges,
       n_random_links: n_random_links
     }
@@ -62,12 +62,12 @@ class TopoType < ApplicationRecord
     
     files = result.split("\n").last(2)
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
-    file_geo = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
+    file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
-    f_geo = File.open(file_geo, 'r')
-    n = f_geo.readline.to_i
-    geo = []
-    (1..n).each { geo << f_geo.readline.split(" ") }
+    f_geos = File.open(file_geo, 'r')
+    n = f_geos.readline.to_i
+    geos = []
+    (1..n).each { geos << f_geos.readline.split(" ") }
     
     f_edges = File.open(file_edges, 'r')
     edges = []
@@ -82,7 +82,7 @@ class TopoType < ApplicationRecord
     end
 
     {
-      geo: geo,
+      geos: geos,
       edges: edges,
       n_random_links: n_random_links
     }

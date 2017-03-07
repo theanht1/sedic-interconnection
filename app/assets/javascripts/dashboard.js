@@ -35,7 +35,7 @@ $(document).ready(function(){
     // Clear current network
     clear(s);
 
-    geos = data['geo'];
+    geos = data['geos'];
     edges = data['edges'];
     n_random_links = data['n_random_links'];
     var nNode = geos.length;
@@ -194,3 +194,9 @@ function linkWithAlpha(e) {
   s.refresh();
 }
 
+$.ajaxSetup({
+  beforeSend: function(xhr) {
+    xhr.setRequestHeader('X-CSRF-Token',
+   $('meta[name="csrf-token"]').attr('content'));
+  }
+});
