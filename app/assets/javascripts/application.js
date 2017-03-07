@@ -17,3 +17,4 @@
 //= require sigma_setting.js
 //= require sigma.min.js
 //= require dashboard.js
+//= require jquery.remotipart

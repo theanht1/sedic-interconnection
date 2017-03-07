@@ -12,11 +12,7 @@ class DashboardsController < ApplicationController
   end
 
   def upload
-    # params[:file_geos].read
-    # puts content
-    # doc = YAML.load(content)
-
-    render json: Upload.create_network_from_file(params[:file_geos].read, params[:file_edges])
+    render json: Upload.create_network_from_file(params[:file_geos].read.to_s, params[:file_edges].read.to_s)
   end
 
   def show

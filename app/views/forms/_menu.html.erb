@@ -1,4 +1,4 @@
-<%= form_tag("/dashboards/create", {:id => "submit", :class => "form", :remote => true}) do %>
+<%= form_tag("/dashboards/create", id: "submit", class: "form", remote: true) do %>
   <div id="edit-container">
     <%= submit_tag "Submit", class: "btn btn-primary" %>
     <!-- <button id="clear" class="btn btn-default">Clear</button> -->
@@ -72,4 +72,4 @@
       <%= text_field_tag "opts[link_latency]", "5 ns/m", class: "form-control", disabled: true %>
     </div>
   </div>
-<% end =%>
+<% end %>

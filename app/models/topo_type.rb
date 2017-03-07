@@ -64,7 +64,7 @@ class TopoType < ApplicationRecord
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
     file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
-    f_geos = File.open(file_geo, 'r')
+    f_geos = File.open(file_geos, 'r')
     n = f_geos.readline.to_i
     geos = []
     (1..n).each { geos << f_geos.readline.split(" ") }
