@@ -45,11 +45,13 @@ class TopoType < ApplicationRecord
       (1..n_links).each { edges << (f_edges.readline.split(' ').map(&:to_i) << index << alpha) }
     end
 
+    analysis = NetworkAnalysis.network_analysis(file_geos, file_edges)
+    
     {
       geos: geos,
       edges: edges,
       n_random_links: n_random_links
-    }
+    }.merge(analysis)
   end
 
   def self.create_sw_grid2d opts
@@ -81,10 +83,12 @@ class TopoType < ApplicationRecord
       (1..n_links).each { edges << (f_edges.readline.split(' ').map(&:to_i) << index << alpha) }
     end
 
+    analysis = NetworkAnalysis.network_analysis(file_geos, file_edges)
+
     {
       geos: geos,
       edges: edges,
       n_random_links: n_random_links
-    }
+    }.merge(analysis)
   end
 end
