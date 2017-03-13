@@ -77,6 +77,13 @@ function createGraph(data) {
   return graph
 }
 
+function showResult(data) {
+  $('#results').removeClass("hide");
+  $('#diameter div input').attr('value', data["diameter"]);
+  $('#total-path div input').attr('value', data["total_shortest_path"]);
+  $('#average-path div input').attr('value', data["average_shortest_path"]);
+}
+
 function alphaViewToggle(n_random_links) {
   var alphaView = '<div class="input-group"> <span class="input-group-addon">View links</span>'
                   + '<select onchange="linkWithAlpha(this);" class="form-control">';
@@ -126,17 +133,19 @@ $(document).ready(function(){
       // console.log(e.data);
       console.log(e.data.edge);
 
-      edge = e.data.edge;
-      if (edge.is_random == true) {
-        $('#edge-click').empty();
-        var formAppend = '<div class="input-group"> <span class="input-group-addon">Source</span><input disabled="true" value=' + edge.source + '></div><div class="input-group"> <span class="input-group-addon">Target</span><input disabled="true" value=' + edge.target + '></div><div class="input-group"> <span class="input-group-addon">Alpha</span><input disabled="true" value=' + edge.alpha + '></div>';
+      // edge = e.data.edge;
+      // if (edge.is_random == true) {
+      //   $('#edge-click').empty();
+      //   var formAppend = '<div class="input-group"> <span class="input-group-addon">Source</span><input disabled="true" value=' + edge.source + '></div><div class="input-group"> <span class="input-group-addon">Target</span><input disabled="true" value=' + edge.target + '></div><div class="input-group"> <span class="input-group-addon">Alpha</span><input disabled="true" value=' + edge.alpha + '></div>';
 
 
-        $('#edge-click').append(formAppend);
-      }
+      //   $('#edge-click').append(formAppend);
+      // }
     });
 
+    showResult(data);
     alphaViewToggle(n_random_links);
+
   });
   
   $("#clear").on("click", function(event){
