@@ -197,12 +197,13 @@ function nLinkChange(e) {
   $("#link-alpha").empty();
   var formAppend = "";
   for (var i = 1; i <= e.value; i++) {
-    formAppend += "<div class='input-group'> <span class='input-group-addon'>Link " + i + "</span> <input type='number' name='opts[alphas][" + i + "]' value='2' step='0.01'> </div>";
+    formAppend += "<div class='input-group'> <span class='input-group-addon'>Link " + i + "</span> <input type='number' class='form-control' name='opts[alphas][" + i + "]' value='2' step='0.01'> </div>";
   }
   $("#link-alpha").append(formAppend);
 }
 
 function linkWithAlpha(e) {
+  console.log(e.value)
   clear(s);
   s = newGraph(graph, sigmaSettings);
   if (e.value > 0) {

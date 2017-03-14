@@ -24,34 +24,10 @@ class TopoType < ApplicationRecord
     alphas = opts[:alphas].values.join(" ")
     result = %x[ python #{GENERATOR_DIR}/sw-2DTorus_Node_xSize_ri.py #{size} #{x_size} #{alphas} ]
     
-    files = result.split("\n").last(2)
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
     file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
-    f_geos = File.open(file_geos, 'r')
-    n = f_geos.readline.to_i
-    geos = []
-    (1..n).each { geos << f_geos.readline.split(" ") }
-    
-    f_edges = File.open(file_edges, 'r')
-    edges = []
-    n, n_based_link, n_random_links = f_edges.readline.split(' ').map(&:to_i)
-
-    (1..n_based_link).each { edges << f_edges.readline.split(' ').map(&:to_i) }
-
-    (1..n_random_links).each do |index|
-      n_links, alpha = f_edges.readline.split(' ').map(&:to_f)
-      n_links = n_links.to_i
-      (1..n_links).each { edges << (f_edges.readline.split(' ').map(&:to_i) << index << alpha) }
-    end
-
-    analysis = NetworkAnalysis.network_analysis(file_geos, file_edges)
-    
-    {
-      geos: geos,
-      edges: edges,
-      n_random_links: n_random_links
-    }.merge(analysis)
+    NetworkAnalysis.network_analysis(file_geos, file_edges)
   end
 
   def self.create_sw_grid2d opts
@@ -65,30 +41,7 @@ class TopoType < ApplicationRecord
     files = result.split("\n").last(2)
     file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
     file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DGrid_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
-
-    f_geos = File.open(file_geos, 'r')
-    n = f_geos.readline.to_i
-    geos = []
-    (1..n).each { geos << f_geos.readline.split(" ") }
     
-    f_edges = File.open(file_edges, 'r')
-    edges = []
-    n, n_based_link, n_random_links = f_edges.readline.split(' ').map(&:to_i)
-
-    (1..n_based_link).each { edges << f_edges.readline.split(' ').map(&:to_i) }
-
-    (1..n_random_links).each do |index|
-      n_links, alpha = f_edges.readline.split(' ').map(&:to_f)
-      n_links = n_links.to_i
-      (1..n_links).each { edges << (f_edges.readline.split(' ').map(&:to_i) << index << alpha) }
-    end
-
-    analysis = NetworkAnalysis.network_analysis(file_geos, file_edges)
-
-    {
-      geos: geos,
-      edges: edges,
-      n_random_links: n_random_links
-    }.merge(analysis)
+    NetworkAnalysis.network_analysis(file_geos, file_edges)
   end
 end
