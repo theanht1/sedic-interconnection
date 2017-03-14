@@ -159,11 +159,13 @@ $(document).ready(function(){
   });
  
   $("#upload").on("ajax:remotipartComplete", function(e, data){
+    e.preventDefault();
     clear(s);
     data_json = eval('('+data.responseText+')');
     graph = createGraph(data_json);
     s = newGraph(graph, sigmaSettings);
     alphaViewToggle(data_json.n_random_links);
+    showResult(data_json);
   });
 });
 

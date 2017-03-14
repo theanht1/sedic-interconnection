@@ -12,7 +12,9 @@ class DashboardsController < ApplicationController
   end
 
   def upload
-    render json: Upload.create_network_from_file(params[:file_geos].read.to_s, params[:file_edges].read.to_s)
+    render json: NetworkAnalysis.network_analysis(params[:file_geos].tempfile.path,
+                                                  params[:file_edges].tempfile.path)
+    #Upload.create_network_from_file(params[:file_geos].read.to_s, params[:file_edges].read.to_s)
   end
 
   def show
