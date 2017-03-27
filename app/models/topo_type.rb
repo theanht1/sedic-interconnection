@@ -21,13 +21,18 @@ class TopoType < ApplicationRecord
     size = opts[:network_size]
     n_random_links = opts[:n_random_links].to_i
     x_size = opts[:x_size]
+    y_size = size.to_i / x_size.to_i
     alphas = opts[:alphas].values.join(" ")
-    result = %x[ python #{GENERATOR_DIR}/sw-2DTorus_Node_xSize_ri.py #{size} #{x_size} #{alphas} ]
-    
-    file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
-    file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
 
-    NetworkAnalysis.network_analysis(file_geos, file_edges)
+    Dir.chdir("network_generator/sedic-graph/src") {
+      result = %x[ java smallworld.SmallWorld torus fixed #{x_size} #{y_size} #{n_random_links} #{alphas} ]
+      puts result
+    }
+
+    # file_edges = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.edges"
+    # file_geos = "#{RESULT_DIR}/network_generator/results/sw_2DTorus_n#{size}xSize#{x_size}_r#{n_random_links}.geos"
+
+    # NetworkAnalysis.network_analysis(file_geos, file_edges)
   end
 
   def self.create_sw_grid2d opts
