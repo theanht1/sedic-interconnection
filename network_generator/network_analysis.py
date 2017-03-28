@@ -1,4 +1,4 @@
-from igraph import*
+from igraph import *
 import sys
 
 ##
@@ -23,27 +23,19 @@ def read_edges(file_edges):
   f_edges = open(file_edges, "r")
 
   line = f_edges.readline().split(" ")
-  n_node, n_base_link, n_random_link = map(lambda x: int(x), line)
+  n_node, n_link, n_random_link = map(lambda x: int(x), line)
 
   edges = []
-  ## Read base links
-  for index in range(n_base_link):
+  ## Read links
+  for index in range(n_link):
     line = f_edges.readline().split(" ")
-    x, y = map(lambda x: int(x), line)
-    edges.append([x, y])
-
-  ## Read random links
-  for index in range(n_random_link):
-    line = f_edges.readline().split(" ")
-    total_random_link = int(line[0])
-    alpha = float(line[1])
-
-    for r_index in range(total_random_link):
-      line = f_edges.readline().split(" ")
+    if len(line) == 2:
       x, y = map(lambda x: int(x), line)
-      edges.append([x, y, index + 1, alpha])    
-
-  return n_node, n_base_link, n_random_link, edges
+      edges.append([x, y])
+    else:
+      edges.append([int(line[0]), int(line[1]), int(line[2]), float(line[3])])
+  
+  return n_node, n_link, n_random_link, edges
 
 
 def create_graph(n_node, edges):
@@ -76,14 +68,18 @@ def main():
   n_node, geos = read_geos(file_geos)
 
   # Read info from edges file
-  n_node, n_base_link, n_random_link, edges = read_edges(file_edges)
+  n_node, n_random_link, n_random_link, edges = read_edges(file_edges)
 
   # Create igraph
   graph = create_graph(n_node, edges)
-
+  # print(graph)
   diameter = graph.diameter(directed = False)
   total_shortest_path = get_total_shortest_path(n_node, graph)
   average_shortest_path = get_average_shortest_path(n_node, total_shortest_path)
+
+  if n_node > 512:
+    geos = []
+    edges = []
 
   result = {
              'geos': geos,
