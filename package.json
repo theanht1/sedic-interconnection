@@ -1,0 +1,15 @@
+{
+  "name": "interconnection",
+  "version": "1.0.0",
+  "description": "Sedic lab interconnection",
+  "repository": "git@gitlab.com:theanht1/sedic-interconnection.git",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "moment": "^2.17.1",
+    "vue": "^2.1.10",
+    "vue-lazyload": "^1.0.0-rc10"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.2.1"
+  }
+}

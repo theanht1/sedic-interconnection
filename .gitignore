@@ -21,3 +21,6 @@
 .byebug_history
 
 /network_generator/results/*
+
+# Node module
+node_modules/
