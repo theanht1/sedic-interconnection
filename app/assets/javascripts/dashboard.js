@@ -82,6 +82,8 @@ function showResult(data) {
   $('#diameter div input').attr('value', data["diameter"]);
   $('#total-path div input').attr('value', data["total_shortest_path"]);
   $('#average-path div input').attr('value', data["average_shortest_path"]);
+  $('#average-path-alpha div input').attr('value', data["average_random_link_path"][0]);
+  $('#average-path-alpha2 div input').attr('value', data["average_random_link_path"][1]);
 }
 
 function alphaViewToggle(n_random_links) {

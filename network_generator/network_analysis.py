@@ -33,7 +33,12 @@ def read_edges(file_edges):
       x, y = map(lambda x: int(x), line)
       edges.append([x, y])
     else:
-      edges.append([int(line[0]), int(line[1]), int(line[2]), float(line[3])])
+      x = int(line[0])
+      y = int(line[1])
+      n_r = int(line[2])
+      alpha = float(line[3])
+
+      edges.append([x, y, n_r, alpha])
   
   return n_node, n_link, n_random_link, edges
 
@@ -48,12 +53,8 @@ def create_graph(n_node, edges):
 
 ## Total shorest path = total path length of every pair of nodes
 def get_total_shortest_path(n_node, graph):
-  total_shortest_path = 0
-  for index in range(n_node):
-    all_paths = graph.get_shortest_paths(index)
-    total_shortest_path += sum(map(lambda x:len(x) - 1, all_paths))
-
-  return total_shortest_path
+  all_paths = graph.shortest_paths()
+  return sum(map(lambda x: sum(x), all_paths))
 
 def get_average_shortest_path(n_node, total_shortest_path):
   return total_shortest_path / (n_node ** 2)
@@ -73,6 +74,7 @@ def main():
   # Create igraph
   graph = create_graph(n_node, edges)
   # print(graph)
+
   diameter = graph.diameter(directed = False)
   total_shortest_path = get_total_shortest_path(n_node, graph)
   average_shortest_path = get_average_shortest_path(n_node, total_shortest_path)
