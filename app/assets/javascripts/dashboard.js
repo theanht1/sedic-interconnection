@@ -60,12 +60,14 @@ function createGraph(data) {
       type = 'curve';        
     }
 
+    var color = '#ccc';
+    if (edges[i][2]) color = COLORS[edges[i][2]];
     graph.edges.push({
       id: 'e' + i,
       label: 'e' + edges[i][0] + ':' + edges[i][1],
       source: 'n' + edges[i][0],
       target: 'n' + edges[i][1],
-      color: '#ccc',
+      color: color,
       size: 2,
       hover_color: '#000',
       type: type,
@@ -207,19 +209,19 @@ function nLinkChange(e) {
 }
 
 function linkWithAlpha(e) {
-  console.log(e.value)
+  console.log(e.value);
   clear(s);
   s = newGraph(graph, sigmaSettings);
   if (e.value > 0) {
     // console.log(s.graph.edges().length);
     s.graph.edges().forEach(function(edge) {
       if (edge.nAlpha && edge.nAlpha == e.value) {
-        edge.color = COLORS[e.value];
+        // edge.color = COLORS[e.value];
       } else {
         s.graph.dropEdge(edge.id);
       }
     });
-  }  
+  }
   s.refresh();
 }
 

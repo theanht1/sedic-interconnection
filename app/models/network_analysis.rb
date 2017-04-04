@@ -1,11 +1,13 @@
 class NetworkAnalysis
-  def self.network_analysis file_geos, file_edges, file_stats
+  def self.network_analysis file_geos, file_edges, file_stats = nil
     result = %x[ python3 #{TopoType::GENERATOR_DIR}/network_analysis.py #{file_geos} #{file_edges} ]
     result = eval(result) rescue nil
 
     average_random_link_path = []
-    File.open(file_stats, "r").each do |line|
-      average_random_link_path << line.to_f
+    if file_stats.present?
+      File.open(file_stats, "r").each do |line|
+        average_random_link_path << line.to_f
+      end
     end
 
     result.merge({
