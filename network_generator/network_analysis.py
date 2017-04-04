@@ -76,8 +76,13 @@ def main():
   # print(graph)
 
   diameter = graph.diameter(directed = False)
-  total_shortest_path = get_total_shortest_path(n_node, graph)
-  average_shortest_path = get_average_shortest_path(n_node, total_shortest_path)
+
+  if n_node <= 1024:
+    total_shortest_path = get_total_shortest_path(n_node, graph)
+    average_shortest_path = get_average_shortest_path(n_node, total_shortest_path)
+  else:
+    total_shortest_path = 0
+    average_shortest_path = 0
 
   if n_node > 512:
     geos = []
