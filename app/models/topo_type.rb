@@ -44,7 +44,7 @@ class TopoType < ApplicationRecord
       file_geos = "#{file_name}.geos"
       file_stats = "#{file_name}.stats"
 
-      if size <= 1024
+      if size <= 20000
         NetworkAnalysis.network_analysis(file_geos, file_edges, file_stats)
       else
         {}
