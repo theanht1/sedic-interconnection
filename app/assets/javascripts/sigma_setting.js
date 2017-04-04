@@ -40,7 +40,7 @@ var sigmaSettings =
           // zoomMin: .05,
           // zoomMax: 1,
           // doubleClickZoomDuration: 0,
-          autoRescale: false,
+          autoRescale: true,
           autoResize: true,
           // doubleClickEnabled: !0,
           enableEdgeHovering: true,
