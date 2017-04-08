@@ -7,6 +7,10 @@
 new Vue({
   el: "#container",
 
+  mounted() {
+    const self = this
+  },
+
   data() {
     return {
       opts: {
@@ -22,6 +26,7 @@ new Vue({
 
       showCustomizeAlpha: false,
       showResultPanel: false,
+      viewLink: 0,
 
       geos: [],
       edges: [],
@@ -31,6 +36,12 @@ new Vue({
       sigma: {},
       graph: {},
     }
+  },
+
+  watch: {
+    'viewLink': function() {
+      this.showRandomLink()
+    },
   },
 
   methods: {
@@ -56,10 +67,35 @@ new Vue({
 
         this.$set(this, "graph", this.createGraph(this.geos, this.edges))
         this.$set(this, "sigma", this.newGraph(this.graph, sigmaSettings))
+        
         this.$set(this, "showResultPanel", true)
       }, (err) => {
 
       })
+    },
+
+    clear(sigma) {
+      if (sigma.graph.nodes().length > 0) sigma.kill();
+    },
+
+    showRandomLink() {
+      var s = this.sigma
+      this.clear(s)
+      s = this.newGraph(this.graph, sigmaSettings)
+
+      const tmpViewLink = this.viewLink
+      if (this.viewLink > 0) {
+        s.graph.edges().forEach(function(edge) {
+          if (edge.nAlpha && edge.nAlpha == tmpViewLink) {
+            // edge.color = COLORS[e.value];
+          } else {
+            s.graph.dropEdge(edge.id)
+          }
+        })
+      }
+      s.refresh()
+
+      this.$set(this, "sigma", s)
     },
 
     createGraph(geos, edges) {
@@ -110,7 +146,7 @@ new Vue({
           hover_color: '#000',
           type: type,
           is_random: isRandom,
-          nAlpha: edges[i][2],
+          nAlpha: Number(edges[i][2]),
           alpha: edges[i][3]
         })
       }

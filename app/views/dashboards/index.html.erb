@@ -47,8 +47,10 @@
           >
             <span class="input-group-addon">View link random</span>
             <select
+              v-model.number="viewLink"
               class="form-control"
             >
+              <option value="0">0</option>
               <option
                 v-for="i in nRandomLink"
                 :value="i"
