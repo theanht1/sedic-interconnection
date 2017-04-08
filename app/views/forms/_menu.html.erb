@@ -1,29 +1,57 @@
-<%= form_tag("/dashboards/create", id: "submit", class: "form", remote: true) do %>
+<div class="form">
   <div id="edit-container">
-    <%= submit_tag "Submit", class: "btn btn-primary" %>
+    <a
+      class="btn btn-primary"
+      @click="requestCreate()"
+    >
+      Submit
+    </a>
+    <!-- <%= submit_tag "Submit", class: "btn btn-primary" %> -->
     <!-- <button id="clear" class="btn btn-default">Clear</button> -->
   </div>
 
   <div id="setting-container">
     <div class="input-group">
       <span class="input-group-addon">Topo type</span>
-      <%= select_tag "opts[topo_type]", options_for_select(@topoType), onchange: "topoTypeChange(this);", class: "form-control" %>
+      <select
+        v-model="opts.topoType"
+        class="form-control"
+      >
+        <% @topoType.each do |type| %>
+          <option value="<%= type %>">
+            <%= type %>
+          </option>
+        <% end %>
+      </select>
     </div>
 
     <div class="input-group">
       <span class="input-group-addon">Network size</span>
-      <%= number_field_tag "opts[network_size]", 64, class: "form-control" %>
+      <input
+        v-model.number="opts.networkSize"
+        type="number"
+        min="16"
+        class="form-control"
+      >
     </div>
 
     <div id="torus-options" class="show">
       <div class="input-group">
         <span class="input-group-addon">X size</span>
-        <%= number_field_tag "opts[x_size]", 8, class: "form-control" %>
+        <input
+          v-model.number="opts.xSize"
+          type="number"
+          min="1"
+          class="form-control"
+        >
       </div>
 
       <div class="input-group">
         <span class="input-group-addon">Base graph type</span>
-        <select class="form-control" name="opts[base_type]">
+        <select
+          v-model="opts.baseType"
+          class="form-control"
+        >
           <option value="torus">Torus</option>
           <option value="grid">Grid</option>
         </select>
@@ -31,7 +59,10 @@
 
       <div class="input-group">
         <span class="input-group-addon">Random links type</span>
-        <select class="form-control" name="opts[random_link_type]">
+        <select
+          v-model="opts.randomLinkType"
+          class="form-control"
+        >
           <option value="fixed">Fixed</option>
           <option value="varied">Varied</option>
         </select>
@@ -39,40 +70,54 @@
 
       <div class="input-group">
         <span class="input-group-addon">Expected degree</span>
-        <%= number_field_tag "opts[expected_degree]", 8, class: "form-control" %>
+        <input
+          v-model.number="opts.expectedDegree"
+          type="number"
+          min="4"
+          class="form-control"
+        >
       </div>
 
       <div class="input-group">
         <span class="input-group-addon">Number of random links</span>
-        <%= number_field_tag "opts[n_random_links]", 2, class: "form-control", onchange: "nLinkChange(this);" %>
+        <input
+          v-model.number="opts.nRandomLink"
+          min="0"
+          type="number"
+          class="form-control"
+        >
+        <!-- <%= number_field_tag "opts[n_random_links]", 2, class: "form-control", onchange: "nLinkChange(this);" %> -->
       </div>
 
       <div class="input-group">
         <span class="input-group-addon">Alpha</span>
         
-        <button class="btn btn-default" type="button" id="dropdownMenu1" onclick="toggleLinkAlpha();">
+        <button
+          v-on:click="showCustomizeAlpha = 1 - showCustomizeAlpha"
+          class="btn btn-default"
+          type="button"
+        >
             Customize
         </button> 
 
       </div>
 
-      <div id="link-alpha" class="hide">
-        <div class="input-group"> 
-          <span class="input-group-addon">Link 1</span>
-          <input type="number" class="form-control" name="opts[alphas][1]" value="1.6" step="0.01">
-        </div>
-
-        <div class="input-group">
-          <span class="input-group-addon">Link 2</span>
-          <input type="number" class="form-control" name="opts[alphas][2]" value="2" step="0.01">
+      <div v-show="showCustomizeAlpha">
+        <div
+          v-for="n in opts.nRandomLink"
+          class="input-group"
+        > 
+          <span class="input-group-addon">Link {{ n }}</span>
+          <input
+            v-model.number="opts.alphaValues[n - 1]"
+            type="number"
+            class="form-control"
+            value="1.6"
+            step="0.01"
+          >
         </div>
       </div>
 
-      <!-- <select onchange="linkAlpha(this);">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-      </select> -->
     </div>    
 
    <!--  <div class="input-group">
@@ -93,4 +138,4 @@
       <%= text_field_tag "opts[link_latency]", "5 ns/m", class: "form-control", disabled: true %>
     </div> -->
   </div>
-<% end %>
+</div>

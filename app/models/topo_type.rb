@@ -21,13 +21,13 @@ class TopoType < ApplicationRecord
     size = opts[:network_size].to_i
     base_type = opts[:base_type]
     random_link_type = opts[:random_link_type]
-    n_random_links = opts[:n_random_links].to_i
+    n_random_links = opts[:n_random_link].to_i
     expected_degree = opts[:expected_degree] || 8
 
     x_size = opts[:x_size].to_i
     y_size = size / x_size
     size = x_size * y_size
-    alphas = opts[:alphas].values.join(" ")
+    alphas = opts[:alphas].join(" ")
 
     Dir.chdir("network_generator/sedic-graph/src") {
       if random_link_type == "fixed"
