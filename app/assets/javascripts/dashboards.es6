@@ -21,7 +21,7 @@ new Vue({
         randomLinkType: "fixed",
         nRandomLink: 2,
         alphaValues: [1.6, 1.6],
-        expectedDegree: 8,
+        boundedDegree: true,
       },
 
       showCustomizeAlpha: false,
@@ -57,7 +57,7 @@ new Vue({
           "random_link_type" : this.opts.randomLinkType,
           "n_random_link" : this.opts.nRandomLink,
           "random_link_type" : this.opts.randomLinkType,
-          "expected_degree" : this.opts.expectedDegree,
+          "is_bounded" : this.opts.boundedDegree,
           "alphas" : this.opts.alphaValues,
         }
       }).then((res) => {

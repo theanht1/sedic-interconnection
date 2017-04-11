@@ -35,7 +35,10 @@
       >
     </div>
 
-    <div id="torus-options" class="show">
+    <div 
+      v-if="opts.topoType == 'SW_2D'"
+      id="torus-options"
+    >
       <div class="input-group">
         <span class="input-group-addon">X size</span>
         <input
@@ -68,14 +71,19 @@
         </select>
       </div>
 
-      <div class="input-group">
-        <span class="input-group-addon">Expected degree</span>
-        <input
-          v-model.number="opts.expectedDegree"
-          type="number"
-          min="4"
+      <div
+        v-if="opts.randomLinkType == 'varied'"
+        class="input-group"
+      >
+        <span class="input-group-addon">Bounded degree</span>
+
+        <select
+          v-model.boolean="opts.boundedDegree"
           class="form-control"
         >
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
       </div>
 
       <div class="input-group">

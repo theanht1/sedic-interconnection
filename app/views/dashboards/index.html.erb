@@ -81,9 +81,23 @@
             v-for="length, index in averageRandomLinkLength"
             class="input-group"
           >
-            <span class="input-group-addon">Average path of link {{ index + 1 }} </span>
+            <span class="input-group-addon">Average length of link {{ index + 1 }} </span>
             <input :value="length" disabled="true" class="form-control">
           </div>
+
+          <!-- <div>
+            <div
+              v-for="length, index in averageRandomLinkLength"
+            >
+              Average length of random link {{index + 1}} : {{ length }}
+              <a
+                class="btn btn-default"
+                v-on:click="viewLink = index + 1"
+              >
+                View
+              </a>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
