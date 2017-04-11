@@ -24,8 +24,9 @@ new Vue({
         boundedDegree: true,
       },
 
+      isDisabledSubmit: false,
       showCustomizeAlpha: false,
-      showResultPanel: false,
+      isShowResultPanel: false,
       viewLink: 0,
 
       geos: [],
@@ -47,7 +48,9 @@ new Vue({
 
   methods: {
     requestCreate() {
-      this.$set(this, "showResultPanel", false)
+      this.$set(this, "isShowResultPanel", false)
+      this.$set(this, "isDisabledSubmit", true)
+
       return axios.post(`/dashboards/create`, {
         "opts" : {
           "topo_type" : this.opts.topoType,
@@ -73,9 +76,10 @@ new Vue({
         if (this.sigma) this.clear(this.sigma)
         this.$set(this, "sigma", this.newGraph(this.graph, sigmaSettings))
         
-        this.$set(this, "showResultPanel", true)
+        this.$set(this, "isShowResultPanel", true)
+        this.$set(this, "isDisabledSubmit", false)
       }, (err) => {
-
+        this.$set(this, "isDisabledSubmit", false)
       })
     },
 
