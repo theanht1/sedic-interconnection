@@ -60,18 +60,14 @@
             </select>
           </div>
 
-          <div id="diameter">
-            <div class="input-group">
-              <span class="input-group-addon">Diameter</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
+          <div class="input-group">
+            <span class="input-group-addon">Diameter</span>
+            <input :value="diameter" disabled="true" class="form-control">
           </div>
 
-          <div id="total-path">
-            <div class="input-group">
-              <span class="input-group-addon">Total shortest path</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Total shortest path</span>
+            <input value="" disabled="true" class="form-control">
           </div>
 
           <div id="average-path">
@@ -79,18 +75,14 @@
               <span class="input-group-addon">Average shortest path</span>
               <input value="" disabled="true" class="form-control"></input>
             </div>
-          </div>
-          <div id="average-path-alpha">
-            <div class="input-group">
-              <span class="input-group-addon">Average path link 1</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
-          </div>
-          <div id="average-path-alpha2">
-            <div class="input-group">
-              <span class="input-group-addon">Average path link 2</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
+          </div> -->
+
+          <div
+            v-for="length, index in averageRandomLinkLength"
+            class="input-group"
+          >
+            <span class="input-group-addon">Average path of link {{ index + 1 }} </span>
+            <input :value="length" disabled="true" class="form-control">
           </div>
         </div>
       </div>

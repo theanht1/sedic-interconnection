@@ -32,8 +32,9 @@ new Vue({
       edges: [],
       nRandomLink: 0,
       diameter: 0,
+      averageRandomLinkLength: 0,
 
-      sigma: {},
+      sigma: null,
       graph: {},
     }
   },
@@ -64,8 +65,12 @@ new Vue({
         this.$set(this, "geos", data.geos)
         this.$set(this, "edges", data.edges)
         this.$set(this, "nRandomLink", data.n_random_links)
+        this.$set(this, "diameter", data.diameter)
+        this.$set(this, "averageRandomLinkLength", data.average_random_link_length)
 
         this.$set(this, "graph", this.createGraph(this.geos, this.edges))
+
+        if (this.sigma) this.clear(this.sigma)
         this.$set(this, "sigma", this.newGraph(this.graph, sigmaSettings))
         
         this.$set(this, "showResultPanel", true)
