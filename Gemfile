@@ -38,6 +38,10 @@ gem 'jbuilder', '~> 2.5'
 # File upload remote
 gem 'remotipart', '~> 1.2'
 
+# Sprockets 4 + ES6 support
+gem 'sprockets', "~> 4.x"
+gem "sprockets-es6"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

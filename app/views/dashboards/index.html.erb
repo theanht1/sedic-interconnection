@@ -18,7 +18,7 @@
             </a>
           </li>
 
-          <li>
+          <!-- <li>
             <a 
               data-toggle="tab" 
               href="#upload-menu"
@@ -26,7 +26,7 @@
               <span class="glyphicon glyphicon-upload"></span> 
               Upload
             </a>
-          </li>
+          </li> -->
         </ul>
 
         <div class="tab-content">
@@ -34,25 +34,40 @@
             <%= render "forms/menu" %>            
           </div>
 
-          <div id="upload-menu" class="tab-pane fade in">
+         <!--  <div id="upload-menu" class="tab-pane fade in">
             <%= render "forms/upload" %>
-          </div>
+          </div> -->
         </div>
 
-        <div id="results" class="hide">
-          <div id="alpha-view"></div>
-          <div id="diameter">
-            <div class="input-group">
-              <span class="input-group-addon">Diameter</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
+        <div
+          v-show="showResultPanel">
+          <div
+            v-if="nRandomLink > 0"
+            class="input-group"
+          >
+            <span class="input-group-addon">View link random</span>
+            <select
+              v-model.number="viewLink"
+              class="form-control"
+            >
+              <option value="0">0</option>
+              <option
+                v-for="i in nRandomLink"
+                :value="i"
+              >
+                {{ i }}
+              </option>
+            </select>
           </div>
 
-          <div id="total-path">
-            <div class="input-group">
-              <span class="input-group-addon">Total shortest path</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
+          <div class="input-group">
+            <span class="input-group-addon">Diameter</span>
+            <input :value="diameter" disabled="true" class="form-control">
+          </div>
+
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Total shortest path</span>
+            <input value="" disabled="true" class="form-control">
           </div>
 
           <div id="average-path">
@@ -60,19 +75,29 @@
               <span class="input-group-addon">Average shortest path</span>
               <input value="" disabled="true" class="form-control"></input>
             </div>
+          </div> -->
+
+          <div
+            v-for="length, index in averageRandomLinkLength"
+            class="input-group"
+          >
+            <span class="input-group-addon">Average length of link {{ index + 1 }} </span>
+            <input :value="length" disabled="true" class="form-control">
           </div>
-          <div id="average-path-alpha">
-            <div class="input-group">
-              <span class="input-group-addon">Average path link 1</span>
-              <input value="" disabled="true" class="form-control"></input>
+
+          <!-- <div>
+            <div
+              v-for="length, index in averageRandomLinkLength"
+            >
+              Average length of random link {{index + 1}} : {{ length }}
+              <a
+                class="btn btn-default"
+                v-on:click="viewLink = index + 1"
+              >
+                View
+              </a>
             </div>
-          </div>
-          <div id="average-path-alpha2">
-            <div class="input-group">
-              <span class="input-group-addon">Average path link 2</span>
-              <input value="" disabled="true" class="form-control"></input>
-            </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

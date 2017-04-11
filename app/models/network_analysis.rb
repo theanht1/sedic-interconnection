@@ -11,7 +11,7 @@ class NetworkAnalysis
     end
 
     result.merge({
-      "average_random_link_path" => average_random_link_path,
+      "average_random_link_length" => average_random_link_path,
     })
   end
 end
